@@ -1,7 +1,7 @@
 module_squid3
 =============
 
-FruityWiFi squid3 module.
+BlackBlulb squid3 module.
 
 This module can also be used to inject code into javascript files.
 
