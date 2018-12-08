@@ -20,7 +20,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>FruityWifi</title>
+<title>BlackBulb</title>
 <script src="../js/jquery.js"></script>
 <script src="../js/jquery-ui.js"></script>
 <link rel="stylesheet" href="../css/jquery-ui.css" />
@@ -66,7 +66,7 @@ $service = $_POST["service"];
 if ($logfile != "" and $action == "delete") {
     $exec = "$bin_rm ".$mod_logs_history.$logfile.".log";
     //exec("$bin_danger \"$exec\"", $dump); //DEPRECATED
-    exec_fruitywifi($exec);
+    exec_blackbulb($exec);
 }
 
 ?>
@@ -96,7 +96,7 @@ if ($logfile != "" and $action == "delete") {
     <?
     $exec = "$bin_iptables -nvL -t nat |grep -E 'REDIRECT.+3128'";
     //$isiptablesup = exec("$bin_danger \"$exec\"" ); //DEPRECATED
-    $isiptablesup = exec_fruitywifi($exec);
+    $isiptablesup = exec_blackbulb($exec);
     if ($isiptablesup[0] != "") { 
         echo "&nbsp;Iptables  <font color=\"lime\"><b>enabled</b></font>.&nbsp; | <a href=\"includes/module_action.php?service=iptables&action=stop\"><b>stop</b></a><br />";
     } else { 

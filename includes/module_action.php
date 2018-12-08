@@ -48,67 +48,67 @@ if($service == "squid3") {
         if (!file_exists($filename)) {
             $exec = "$bin_touch $mod_logs";
             //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-            exec_fruitywifi($exec);
+            exec_blackbulb($exec);
                 
             $exec = "$bin_chmod 666 $mod_logs";
             //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-            exec_fruitywifi($exec);
+            exec_blackbulb($exec);
         }
         
         // COPY LOG
         if ( 0 < filesize( $mod_logs ) ) {
             $exec = "$bin_cp $mod_logs $mod_logs_history/".gmdate("Ymd-H-i-s").".log";
             //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-            exec_fruitywifi($exec);
+            exec_blackbulb($exec);
                 
             $exec = "$bin_echo '' > $mod_logs";
             //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-            exec_fruitywifi($exec);
+            exec_blackbulb($exec);
         }
         
         $exec = "if [ ! -d '/var/www/tmp-squid' ]; then mkdir /var/www/tmp-squid; chmod 777 /var/www/tmp-squid; fi;";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
 	
         $exec = "$bin_sed -i 's/print \\\"http.*tmp/print \\\"http:\\/\\/$io_in_ip:80\\/tmp/g' $mod_path/includes/inject/poison.pl";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
         // print "http://10.0.0.1:80/tmp/$pid-$count.js\n";
 	
-        //$exec = "$bin_squid3 -f /usr/share/FruityWifi/conf/squid.conf &";
+        //$exec = "$bin_squid3 -f /usr/share/BlackBulb/conf/squid.conf &";
         $exec = "$bin_squid3 -f $mod_path/includes/squid.conf &";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
         $exec = "$bin_iptables -t nat -A PREROUTING -i $io_action -p tcp --dport 80 -j REDIRECT --to-port 3128";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
     } else if($action == "stop") {
         
         // COPY LOG
         if ( 0 < filesize( $mod_logs ) ) {
             $exec = "$bin_cp $mod_logs $mod_logs_history/".gmdate("Ymd-H-i-s").".log";
             //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-            exec_fruitywifi($exec);
+            exec_blackbulb($exec);
             
             $exec = "$bin_echo '' > $mod_logs";
             //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-            exec_fruitywifi($exec);
+            exec_blackbulb($exec);
         }
         
         // STOP MODULE
         $exec = "$bin_killall squid3";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
         $exec = "/etc/init.d/squid3 stop";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
         $exec = "$bin_iptables -t nat -D PREROUTING -i $io_action -p tcp --dport 80 -j REDIRECT --to-port 3128";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
 	
         $exec = "if [ -d '/var/www/tmp-squid' ]; then rm -R /var/www/tmp-squid; fi;";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
 	
     }
 }
@@ -117,17 +117,17 @@ if($service == "url_rewrite") {
     if ($action == "start") {
         $exec = "$bin_sed -i 's/^\#url_rewrite_program/url_rewrite_program/g' $mod_path/includes/squid.conf";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
         $exec = "$bin_squid3 -k reconfigure";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
     } else if($action == "stop") {
         $exec = "$bin_sed -i 's/^url_rewrite_program/\#url_rewrite_program/g' $mod_path/includes/squid.conf";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
         $exec = "$bin_squid3 -k reconfigure";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
     }
         header('Location: ../index.php');
         exit;
@@ -137,11 +137,11 @@ if($service == "iptables") {
     if ($action == "start") {
         $exec = "$bin_iptables -t nat -A PREROUTING -i $io_action -p tcp --dport 80 -j REDIRECT --to-port 3128";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
     } else if($action == "stop") {
         $exec = "$bin_iptables -t nat -D PREROUTING -i $io_action -p tcp --dport 80 -j REDIRECT --to-port 3128";
         //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-        exec_fruitywifi($exec);
+        exec_blackbulb($exec);
     }
     header('Location: ../index.php');
     exit;
@@ -150,11 +150,11 @@ if($service == "iptables") {
 if($change_js == "1") {
     $exec = "$bin_sed -i 's/url_rewrite_program=.*/url_rewrite_program=\\\"".$action."\\\";/g' ../_info_.php";
     //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-    exec_fruitywifi($exec);
+    exec_blackbulb($exec);
     
     $exec = "$bin_cp $mod_path/includes/templates/$action $mod_path/includes/inject/pasarela.js";
     //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-    exec_fruitywifi($exec);
+    exec_blackbulb($exec);
     
     header('Location: ../index.php');
     exit;
@@ -165,11 +165,11 @@ if ($install == "install_squid3") {
 
     $exec = "chmod 755 install.sh";
     //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-    exec_fruitywifi($exec);
+    exec_blackbulb($exec);
     
     $exec = "$bin_sudo ./install.sh > $log_path/install.txt &";
     //exec("$bin_danger \"$exec\"" ); //DEPRECATED
-    exec_fruitywifi($exec);
+    exec_blackbulb($exec);
 
     header('Location: ../../install.php?module=squid3');
     exit;

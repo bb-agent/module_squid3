@@ -56,7 +56,7 @@ if ($type == "templates") {
 				$newdata = preg_replace("/[\n\r]/",  "", $newdata);
 				$template_path = "$mod_path/includes/templates";
         		$exec = "/bin/echo '$newdata' | base64 --decode > $template_path/$tempname";
-                $output = exec_fruitywifi($exec);
+                $output = exec_blackbulb($exec);
     		}
     	}
     	
@@ -67,7 +67,7 @@ if ($type == "templates") {
 			if ($new_rename_file != "") {
 				$template_path = "$mod_path/includes/templates";
 				$exec = "/bin/touch $template_path/$new_rename_file";
-                $output = exec_fruitywifi($exec);
+                $output = exec_blackbulb($exec);
 
 				$tempname=$new_rename_file;
 			}
@@ -75,7 +75,7 @@ if ($type == "templates") {
 			//RENAME TEMPLATE
 			$template_path = "$mod_path/includes/templates";
 			$exec = "/bin/mv $template_path/$new_rename $template_path/$new_rename_file";
-            $output = exec_fruitywifi($exec);
+            $output = exec_blackbulb($exec);
 
 			$tempname=$new_rename_file;
 		}
@@ -85,7 +85,7 @@ if ($type == "templates") {
 			//DELETE TEMPLATE
 			$template_path = "$mod_path/includes/templates";
 			$exec = "/bin/rm $template_path/$new_rename";
-            $output = exec_fruitywifi($exec);
+            $output = exec_blackbulb($exec);
 		}
 	}
 	header("Location: ../index.php?tab=1&tempname=$tempname");
